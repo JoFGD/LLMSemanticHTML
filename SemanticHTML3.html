@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture (Context) Document</title>
+</head>
+<body>
+<article>
+    <h1>Architecture (Context) Document</h1>
+    <h2>Architecture Description</h2>
+
+    <section id="Section 1.1">
+        <h3>Section 1.1: Description of Controller</h3>
+        <p>As noted in the description of use cases for autonomous networks, a controller is a workflow, open loop or closed loop composed of modules, integrated in a specific sequence, using interfaces exposed by the modules, which can be developed independently of the system under control before integration into the system under control, to solve a specific problem or satisfy a given requirement.</p>
+        <p>Exploratory evolution and experimentation are examples of functionalities in the AN which act upon controllers. Exploratory Evolution hosts evolution controllers which provide the functionality that creates and modifies a controller in accordance with the system under
+        control and the real-time changes therein. Experimentation subsystem hosts experimentation controller which provides the functionality that validates controllers using inputs from a combination of underlay network, simulators and/or testbeds. In addition, the Dynamic Adaptation subsystem hosts the Curation, selection and operation controllers which provide the functionality of process of continuous integration of controllers to an underlay, as the underlay undergoes changes at run-time.</p>
+        <p>In this architecture, we introduce the term controller to refer specifically to a workflows, open loops, or closed loops that are composed of modules.</p>
+        <p>Architecture described here enables the design, creation, and adaptation of these controllers.</p>
+    </section>
+
+    <section id="Section 1.2">
+        <h3>Section 1.2: Evolution Controller</h3>
+        <p>Exploratory evolution is the process that creates and modifies a controller in accordance with the system under control and the real-time changes therein.</p>
+        <p>An evolution controller is the component responsible for managing the application of exploratory evolution on controllers. Exploratory evolution is the ability to modify the structure and configuration of a controller. This assumes that the controllers are composed of modular and configurable elements or “building blocks”.</p>
+        <p>The process of exploratory evolution is agnostic to whether the current operational environment is known ahead of time or is completely new and unseen. The process includes generating options for exploratory evolution and based on the characteristics of the controller and the knowledge base, applying such evolutions on various types of controllers. As part of this, controller characteristics may be discovered, new controllers may be composed from modules or other controllers to provide new capabilities in the network. Declarative representation of use case, provided by AN orchestrator, is used as input by the evolution controller. Controller descriptions may be updated by the evolution controller based on the exploratory evolution.</p>
+    </section>
+
+    <section id="Section 1.3">
+        <h3>Section 1.3: Knowledge Base</h3>
+        <p>Knowledge in AN is a collection of resources that helps in solving a specific type of problem.</p>
+        <p>NOTE 1 – Examples of resources are description of a problem along with the description of corresponding potential solutions to that type of problem. The descriptions may be in the form of standard metadata. Resources may include possible causes of the problem, corresponding solutions and their advantages, disadvantages and optimization approaches etc.</p>
+        <p>A knowledge base component manages knowledge derived from and used in autonomous networks. It is updated and accessed by various components in the autonomous network.</p>
+        <p>NOTE 2 - Knowledge includes metadata which is derived from the capabilities, status of AN components. This knowledge is stored and exchanged as part of interactions of AN components with knowledge base. Knowledge can be derived from different sources including structured or unstructured data from various actors involved in a use case and/or various experiments in AN Sandbox.</p>
+        <p>NOTE 3 – Managing knowledge includes storing, querying, export, import and optimize the knowledge. AN workflows, including exchange of knowledge between AN components, may in turn result in update of knowledge base.</p>
+        <p>NOTE 4 – Uses of knowledge stored in knowledge base by other components include to facilitate the deployment and management of controllers in underlays, and selection and optimization of experimentation strategies in the experimentation stage.</p>
+    </section>
+
+    <section id="Section 1.4">
+        <h3>Section 1.4: Experimentation Controller</h3>
+        <p>Experimentation is the process that validates controllers using inputs from a combination of underlay network, simulators and/or testbeds. The process of experimentation ensures that the controller under experimentation satisfies the use case requirements and is compatible with deployment in the intended underlay. </p>
+        <p>An experimentation controller is a component which generates potential scenarios of experimentations based on controller descriptions and representations of the use case. Experimentation controller uses additional information as provided by the knowledge base and that provided by AN orchestrator in the process of generating scenarios of experimentation. </p>
+        <p>In addition to generating scenarios for experimentation, Experimentation controller executes the scenarios in the AN Sandbox, collates and validates the results of the experimentation. Reports may be generated by experimentation controller which captures information from the steps of generating scenarios, execution and validation of controllers. These reports may be shared with humans or used for analysis by algorithmic methods. Experimentation scenarios may be optimized as result of analysis of the experiments.</p>
+    </section>
+
+    <section id="Section 1.5">
+        <h3>Section 1.5: Selection Controller and Curation Controller</h3>
+        <p>Dynamic adaptation is the process of continuous integration of controllers to an underlay, as the underlay undergoes changes at run-time. Integration of controllers may involve multiple domains of the underlay. </p>
+        <p>The selection and curation controllers are the components in AN responsible for selecting candidate controllers from a set of generated controller configurations which are ready for integration and executes the integration to the underlay. Selection and curation controllers will monitor deployed controllers and the underlay, deciding opportunities for new controller integrations to the underlay. In monitoring a deployed controller, an selection or curation controller will discover underlay specific parameters (including those provided by 3rd parties) for optimisation, data points of collection and KPIs for tracking and may update such knowledge to the knowledge base. </p>
+        <p>The Curation controller is responsible for selection and maintenance of the controllers within the curated controller lists from the evolvable controllers. The Selection Controller is responsible for the selection of a services’ operational controller from the curated controller lists. </p>
+        <p>Reports may be generated by the selection and curation controllers which capture information from the process of adaptation. These reports may be shared with humans or used for analysis by algorithmic methods. Adaptation process may be optimized as result of analysis of the reports. </p>
+    </section>
+
+    <section id="Section 1.6">
+        <h3>Section 1.6: AN orchestrator</h3>
+        <p>AN orchestrator is the component responsible for managing workflows and processes in the AN and steps in the lifecycle of controllers. To manage the workflows and processes in AN, AN orchestrator coordinates with various other functions in the AN as well as outside the AN. </p>
+        <p>NOTE - Steps in the lifecycle of controllers are creation or instantiation of controllers from controller designs, storage, validation, update, deletion, discovery, configuration, deployment, monitoring of controllers. </p>
+        <p>Being part of the management plane, AN orchestrator provides interface to human operators in the form of reports regarding the functioning of the AN and human interfaces for configuring the AN, where applicable. </p>
+    </section>
+
+    <section id="Section 1.7">
+        <h3>Section 1.7: AN Sandbox</h3>
+        <p>AN Sandbox is an environment in which controllers can be deployed, experimentally validated with the help of (domain specific) models of underlays, and their effects upon an underlay evaluated, without affecting the underlay. </p>
+        <p>NOTE 1 - AN Sandbox generates reports regarding the experimental validation of controllers. These reports are collated by the Experimentation controller and the Knowledge Base is updated. </p>
+    </section>
+
+    <h2>Description of Subsystems</h2>
+    <section id="Section 2.1">
+        <h3>Section 2.1: Exploratory Evolution Subsystem</h3>
+        <p>Any approach towards an autonomous network (truly or otherwise), requires the ability to adapt its operation. This adaptation can be motivated by changing operation environments, new technological innovation, faults, human error, the pursuit of contextual optimality, etc. Additionally, this architecture requires the ability to alter the logic which to use to operate autonomous networks (i.e. the controller). Without such functionality, it is not possible to achieve adaptation which is sufficiently flexible across the spectrum of use cases, operational environments, technological innovations, and potential human errors. </p>
+        <p>Controller Specifications are high-level, non-executable representation of a Controller with the metadata corresponding to necessary functionality of the controller and a utility function to be achieved. Controller designs are low-level, non-executable representations of controller containing modules, their configurations, and their parameter values which is used to instantiate a controller. Controller designs are derived from controller specifications by the evolution controller. </p>
+        <p>Collection of controllers may be formed with each of them tasked with the same purpose but with various compositions. These are called Controller hierarchies. </p>
+        <p>Hence, the evolutionary exploration subsystem is responsible for:</p>
+        <ol>
+            <li>The automatic generation of controller designs from composable software module specifications. </li>
+            <li>The automatic modification of controller designs based on existing controller and module specifications and/or designs. </li>
+            <li>The automatic generation of controller hierarchy designs from controller specifications. </li>
+            <li>The automatic modification of controller hierarchy designs based on existing controller hierarchy specifications and controller specifications. </li>
+        </ol>
+        <p>Exploratory evolution will enable the automated design or modification of controllers and their hierarchies for the purpose of exploring the range of possible controller logics - and hence how the controller will adapt to the operational environment. </p>
+    </section>
+
+    <section id="Section 2.2">
+        <h3>Section 2.2: Experimentation Subsystem</h3>
+        <p>Any approach towards an autonomous network (truly or otherwise), requires the ability to adapt its operation. This adaptation can be motivated by changing operation environments, new technological innovation, faults, human error, the pursuit of contextual optimality, etc. Additionally, this architecture requires the ability to alter the logic which to use to operate autonomous networks (i.e. the controller). Without such functionality, it is not possible to achieve adaptation which is sufficiently flexible across the spectrum of use cases, operational environments, technological innovations, and potential human errors. </p>
+        <p>Controller Specifications are high-level, non-executable representation of a Controller with the metadata corresponding to necessary functionality of the controller and a utility function to be achieved. Controller designs are low-level, non-executable representations of controller containing modules, their configurations, and their parameter values which is used to instantiate a controller. Controller designs are derived from controller specifications by the evolution controller. </p>
+        <p>Collection of controllers may be formed with each of them tasked with the same purpose but with various compositions. These are called Controller hierarchies. </p>
+        <p>Hence, the evolutionary exploration subsystem is responsible for: </p>
+        <ol>
+            <li>The automatic generation of controller designs from composable software module specifications. </li>
+            <li>The automatic modification of controller designs based on existing controller and module specifications and/or designs. </li>
+            <li>The automatic generation of controller hierarchy designs from controller specifications. </li>
+            <li>The automatic modification of controller hierarchy designs based on existing controller hierarchy specifications and controller specifications. </li>
+        </ol>
+
+        <p>Exploratory evolution will enable the automated design or modification of controllers and their hierarchies for the purpose of exploring the range of possible controller logics - and hence how the controller will adapt to the operational environment. </p>
+    </section>
+
+    <section id="Section 2.3">
+        <h3>Section 2.3: Dynamic Adaptation Subsystem</h3>
+        <p>The dynamic adaptation subsystem is responsible for curating a set of controllers which may be considered as “fit for purpose” or “safe enough to try”, selecting a subset of controllers for integration with the underlay. </p>
+        <p>This set of controllers is drawn from the controllers which were validated by the experimental subsystem. Additionally, this subsystem is responsible for which of these curated controllers should be selected for actual deployment in the management of the managed entity. Precisely when, under what conditions, or with what frequency curation or selection happens are configurable properties of the curation and selection processes themselves. This is necessary as each managed entity, as well as the operational and business environments in which they operate, vary from use case to use case. To accommodate this, the curation process is guided by requirements. Examples of such requirements may include: </p>
+        <ul>
+            <li>The size of the curated controller lists </li>
+            <li>The average utility of the curated controller lists </li>
+            <li>The diversity of the controllers within the curated controller lists </li>
+            <li>The utility threshold required to be considered to enter or remain within the curated controller lists.</li>
+        </ul>
+        <p>The evolvable controllers are stored within the network information base. As the evolvable controllers undergo constant evolution, it is the responsibility of the dynamic adaptation to bring stability to the operation of the managed entity by creating a level of separation between evolvable controllers managed by the autonomy engine and the operation controller integrated with the managed entity. </p>
+        <p>Selection and integration of controllers to a managed entity requires a stable set of functioning controllers which can respond correctly in sub-second timescales, depending on the use case in question. </p>
+        <p>Accordingly, the autonomy engine and dynamic adaptation subsystem would correspond to the design-time and run-time concepts respectively.</p>
+    </section>
+
+    <section id="Section 2.4">
+        <h3>Section 2.4: Knowledge Base Subsystem</h3>
+        <p>Autonomous networks require the collection, description, usage, storage, and analysis of data. The analysis of data and information, resulting in an understanding of what the data and information mean is often referred to as knowledge. </p>
+        <p>Data, information, and knowledge which is required for the controllers to operate the managed entity and in its goal of supporting the continuous exploratory evolution, real-time online experimental validation, and dynamic adaptation. </p>
+        <p>Knowledge base is a subsystem which manages storage, querying, export, import and optimization and update knowledge, including that derived from different sources including structured or unstructured data from various components or other subsystems. </p>
+        <p>NOTE 1 - Knowledge includes metadata which is derived from the capabilities, status of AN components. This knowledge is stored and exchanged as part of interactions of AN components with knowledge base. Knowledge can be derived from different sources including structured or unstructured data from various actors involved in a use case and/or various experiments in AN Sandbox. </p>
+        <p>Managing knowledge includes storing, querying, export, import and optimize the knowledge. AN workflows, including exchange of knowledge between AN components, may in turn result in update of knowledge base. </p>
+        <p>NOTE 2 – Uses of knowledge stored in knowledge base by other components include to facilitate the deployment and management of controllers in underlays, and selection and optimization of experimentation strategies in the experimentation stage.</p>
+    </section>
+
+    <section id="Section 2.5">
+        <h3>Section 2.5: Autonomy Engine</h3>
+        <p>Autonomy engine refers to the grouping of the evolutionary exploration subsystem and the real-time online experimentation subsystem. Together, these architectural components enable the more general trial and error process where new candidate controllers generated in the former and validated by the latter.</p>
+    </section>
+
+    <section id="Section 2.6">
+        <h3>Section 2.6: Description of Architecture</h3>
+        <p>This clause describes the high-level architecture framework for autonomous networks, as shown in Figure 5: High-Level Framework for Autonomous Network. As noted previously, the goal of this architecture is to support the continuous evolutionary-driven creation, validation, and application of a sea of CL controllers to a network and its services such that the network and its services may become autonomous.</p>
+    </section>
+
+    <section id="Section 2.7">
+        <h3>Section 2.7: Controller Roles</h3>
+        <p>As shown in Fig 5, there are four different roles performed by Controllers. These different controller roles are: </p>
+        <ul>
+            <li>Operation Controller: A controller responsible for the operation of a managed entity. Operation may include analysing the data (e.g. throughput or latency) related to the managed entity and applying these actions (e.g. scale in/out or migration) to the managed entity. Operation controller is selected and applied to the managed entity by selection controller. After application of Operation Controller to a managed entity, the controller is continuously monitored by the selection controller for the purpose of providing the most effective operation of the managed entity. </li>
+            <li>Selection Controller: A controller responsible for the selection of a services’ operational controller from the curated controller lists. Selection controller utilizes metrics including the data related to the status and performance of the different components of the architecture and managed entities as described in 8.3.4 recorded in the knowledge base to select the operation controller to be deployed in the underlay. </li>
+            <li>Curation Controller: A controller responsible for the selection and maintenance of the controllers within the curated controller lists from the evolvable controllers. </li>
+            <li>Evolution Controller: A controller responsible for evolution of controllers. Evolution Controller may use as input, a set of controllers called evolvable controllers, which are subject to the exploratory evolution process. </li>
+        </ul>
+    </section>
+</article>
+</body>
+</html>
